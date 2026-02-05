@@ -1,0 +1,65 @@
+﻿<!-- polyclinic_app/templates/polyclinic_app/base.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Поликлиника{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container d-flex justify-content-between">
+
+            <!-- ЛЕВАЯ ЧАСТЬ -->
+            <div class="navbar-nav">
+                <a class="navbar-brand" href="{% url 'home' %}">Поликлиника</a>
+                <a class="nav-link" href="{% url 'doctor_list' %}">Врачи</a>
+                <a class="nav-link" href="{% url 'patient_list' %}">Пациенты</a>
+                <a class="nav-link" href="{% url 'visit_list' %}">Визиты</a>
+                <a class="nav-link" href="{% url 'schedule_list' %}">Расписание</a>
+                <a class="nav-link" href="{% url 'report_doctor_stats' %}">Статистика</a>
+                <a class="nav-link" href="{% url 'report_next_visits' %}">Ближайшие визиты</a>
+            </div>
+
+            <!-- ПРАВАЯ ЧАСТЬ: РОЛЬ -->
+            <div class="d-flex align-items-center">
+
+                {% if not is_operator %}
+                <form method="post" action="{% url 'enter_operator' %}" class="d-flex">
+                    {% csrf_token %}
+                    <input type="password"
+                           name="password"
+                           class="form-control form-control-sm me-2"
+                           placeholder="Пароль оператора (123)"
+                           required>
+                    <button class="btn btn-warning btn-sm">
+                        Я оператор
+                    </button>
+                </form>
+                {% else %}
+                <span class="badge bg-warning text-dark me-3">
+                    Режим оператора
+                </span>
+                <a href="{% url 'exit_operator' %}" class="btn btn-outline-light btn-sm">
+                    Выйти
+                </a>
+                {% endif %}
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+
+        {% if operator_error %}
+        <div class="alert alert-danger">
+            {{ operator_error }}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>

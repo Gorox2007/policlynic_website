@@ -1,0 +1,38 @@
+﻿{% extends 'polyclinic_app/base.html' %}
+
+{% block content %}
+<h2>Ближайшие визиты</h2>
+
+<form method="post" class="mb-3">
+    {% csrf_token %}
+
+    <label class="form-label">Врач:</label>
+    <select name="doctor_id" class="form-select" required>
+        <option value="">-- выберите врача --</option>
+        {% for doctor in doctors %}
+        <option value="{{ doctor.0 }}">
+            {{ doctor.1 }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <button class="btn btn-primary mt-2">Показать</button>
+</form>
+
+{% if visits %}
+<table class="table table-bordered">
+    <tr>
+        <th>Дата визита</th>
+        <th>Пациент</th>
+    </tr>
+    {% for v in visits %}
+    <tr>
+        <td>{{ v.0 }}</td>
+        <td>{{ v.1 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% elif visits is not None %}
+<p>Ближайших визитов нет.</p>
+{% endif %}
+{% endblock %}

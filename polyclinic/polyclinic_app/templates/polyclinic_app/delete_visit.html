@@ -1,0 +1,42 @@
+﻿<!-- polyclinic_app/templates/polyclinic_app/delete_visit.html -->
+{% extends 'polyclinic_app/base.html' %}
+
+{% block title %}Удаление визита{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">{{ title }}</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <h5 class="alert-heading">Вы уверены, что хотите удалить этот визит?</h5>
+                    <hr>
+                    <p><strong>ID визита:</strong> {{ visit.id }}</p>
+                    <p><strong>Пациент:</strong> {{ visit.patient.lname }} {{ visit.patient.fname }}</p>
+                    <p><strong>Врач:</strong> {{ visit.doctor.lname }} {{ visit.doctor.fname }}</p>
+                    <p><strong>Дата:</strong> {{ visit.visit_date }} {{ visit.visit_time|time:"H:i" }}</p>
+                    <p>
+                        <strong>Статус:</strong>
+                        {% if visit.status == 'completed' %}Завершен
+                        {% elif visit.status == 'cancelled' %}Отменен
+                        {% else %}Запланирован{% endif %}
+                    </p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'visit_list' %}" class="btn btn-secondary me-md-2">
+                            Отмена
+                        </a>
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

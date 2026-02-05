@@ -1,0 +1,33 @@
+﻿<!-- polyclinic_app/templates/polyclinic_app/cancel_appointments.html -->
+{% extends 'polyclinic_app/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">{{ title }}</h4>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="patient_id" class="form-label">Выберите пациента</label>
+                <select class="form-select" id="patient_id" name="patient_id" required>
+                    <option value="">Выберите пациента</option>
+                    {% for patient in patients %}
+                    <option value="{{ patient.0 }}">{{ patient.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="alert alert-warning">
+                Внимание! Будут отменены все запланированные визиты выбранного пациента.
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'home' %}" class="btn btn-secondary me-md-2">Отмена</a>
+                <button type="submit" class="btn btn-danger">Отменить все визиты</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

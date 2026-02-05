@@ -1,0 +1,19 @@
+﻿<!-- polyclinic_app/templates/polyclinic_app/message.html -->
+{% extends 'polyclinic_app/base.html' %}
+
+{% block title %}{{ title|default:"Сообщение" }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <h3 class="card-title mb-4">{{ message }}</h3>
+                <div class="mt-4">
+                    <a href="{% url 'home' %}" class="btn btn-primary">На главную</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
